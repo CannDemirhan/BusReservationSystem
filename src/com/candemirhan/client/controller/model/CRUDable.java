@@ -3,7 +3,7 @@ package com.candemirhan.client.controller.model;
 
 import org.hibernate.Session;
 
-import com.candemirhan.util.HibernateUtility;
+import com.candemirhan.util.HibernateUtil;
 
 public interface CRUDable<T> {
 	
@@ -16,6 +16,6 @@ public interface CRUDable<T> {
 
 	public default Session dbConnectionViaHibernate()
 	{
-		return HibernateUtility.getSessionFactory().openSession();
+		return HibernateUtil.getSessionFactory().openSession();
 	}
 }

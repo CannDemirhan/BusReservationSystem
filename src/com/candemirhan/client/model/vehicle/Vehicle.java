@@ -12,7 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Table
@@ -20,7 +22,7 @@ import jakarta.persistence.Table;
 public class Vehicle {
 
 	@Id
-	@Column(name = "vehicle_id",unique = true)
+	@Column(name = "vehicle_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long vehicleId;
 	
@@ -31,19 +33,22 @@ public class Vehicle {
 	private String licencePlateCode;
 	private int    capacity;
 	
-	@OneToMany(mappedBy = "vehicle_id")
+	@OneToOne
+	@JoinColumn(name = "DESTINATION_ID", referencedColumnName = "destination_id")
+	private Destination destination;
+	
+	@OneToMany(mappedBy = "vehicle")
 	private List<Passanger> passangerList;
-	private Map<Integer,Passanger> passangerMap;
+	
 
 	public Vehicle() 
 	{
 		super();		
 		this.passangerList = new ArrayList<>();
-		this.passangerMap = new HashMap<>();
 		
 		for(int i = 1; i <= this.capacity; i++)
 		{
-			passangerMap.put(i, null);
+			passangerList.add(i, null);
 		}
 	}
 
@@ -93,14 +98,6 @@ public class Vehicle {
 
 	public void setPassangerList(List<Passanger> passangerList) {
 		this.passangerList = passangerList;
-	}
-
-	public Map<Integer, Passanger> getPassangerMap() {
-		return passangerMap;
-	}
-
-	public void setPassangerMap(Map<Integer, Passanger> passangerMap) {
-		this.passangerMap = passangerMap;
 	}
 	
 }

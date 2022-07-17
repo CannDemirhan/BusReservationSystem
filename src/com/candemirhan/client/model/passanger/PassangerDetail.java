@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -14,8 +15,9 @@ import jakarta.persistence.Table;
 @Entity
 public class PassangerDetail {
 	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "passanger_detail_id", unique = true)
+	@Column(name = "passanger_detail_id")
 	private long passengerDetailId;
 	
 	@Column(name = "identity_number", unique = true)
@@ -92,15 +94,4 @@ public class PassangerDetail {
 	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
-
-	public Passanger getPassanger() {
-		return passanger;
-	}
-
-	public void setPassanger(Passanger passanger) {
-		this.passanger = passanger;
-	}
-	
-	
-
 }

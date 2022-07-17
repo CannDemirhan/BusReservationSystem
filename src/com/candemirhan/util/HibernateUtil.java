@@ -3,13 +3,15 @@ package com.candemirhan.util;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.candemirhan.client.model.booking.Ticket;
 import com.candemirhan.client.model.passanger.Passanger;
 import com.candemirhan.client.model.passanger.PassangerDetail;
+import com.candemirhan.client.model.vehicle.Destination;
 import com.candemirhan.client.model.vehicle.Vehicle;
 
-public class HibernateUtility {
+public class HibernateUtil {
 	
-private static final SessionFactory sessionFactory = sessionFactory();
+	private static final SessionFactory sessionFactory = sessionFactory();
 	
 	private static SessionFactory sessionFactory() {
 		
@@ -23,6 +25,8 @@ private static final SessionFactory sessionFactory = sessionFactory();
 		config.addAnnotatedClass(Passanger.class);
 		config.addAnnotatedClass(Vehicle.class);
 		config.addAnnotatedClass(PassangerDetail.class);
+		config.addAnnotatedClass(Ticket.class);
+		config.addAnnotatedClass(Destination.class);
 		
 		factory = config.configure("hibernate.cfg.xml").buildSessionFactory();
 		
@@ -36,5 +40,4 @@ private static final SessionFactory sessionFactory = sessionFactory();
 	{
 		return sessionFactory;
 	}
-
 }
