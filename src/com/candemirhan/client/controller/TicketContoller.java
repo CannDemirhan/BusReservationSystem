@@ -17,7 +17,7 @@ public class TicketContoller implements CRUDable<Ticket>{
 		try(Session session = dbConnectionViaHibernate())
 		{
 			session.getTransaction().begin();
-			session.persist(entity);
+			session.merge(entity);
 			session.getTransaction().commit();
 			
 			System.out.println("Ticket Added to DB " + entity);

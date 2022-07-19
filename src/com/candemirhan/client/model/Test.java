@@ -1,6 +1,8 @@
 package com.candemirhan.client.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.sql.Date;
 
 import com.candemirhan.client.controller.DestinationController;
@@ -21,45 +23,63 @@ public class Test {
 	public static void main(String[] args) {
 		
 		PassangerDetailController passangerDetailController = new PassangerDetailController();
-		PassangerDetail passangerDetail = new PassangerDetail();
-		passangerDetail.setBirthdate(Date.valueOf(LocalDate.of(1994, 9, 27)));
+		PassangerDetail           passangerDetail           = new PassangerDetail();
+		PassangerController       passangerController       = new PassangerController();
+		Passanger                 passanger                 = new Passanger();
+		TicketContoller           tickCont                  = new TicketContoller();
+		Ticket                    ticket                    = new Ticket();
+		VehicleController         vehicCont                 = new VehicleController();
+		Vehicle                   vehicle                    = new Vehicle();
+		DestinationController     desCont                   = new DestinationController();
+		Destination               dest                      = new Destination();
+		
+
+		Set<Ticket> ticketSet = new HashSet<>();
+		
+		vehicle.setCapacity(50);
+		vehicle.setCompany("Metro");
+		vehicle.setLabel("TEMSA");
+		vehicle.setLicencePlateCode("34 AB 8888");
+		
+		dest.setDepartureDate(Date.valueOf(LocalDate.now()));
+		dest.setDestinatedCity("Istanbul");
+		dest.setDuration(12);
+		dest.setSourceCity("Adana");
+		
+		passangerDetail.setBirthdate(Date.valueOf(LocalDate.of(1994, 9, 28)));
 		passangerDetail.setEmail("c.demirhan01@gmail.com");
 		passangerDetail.setGender(Gender.MALE);
 		passangerDetail.setIdentityNumber("12345678901");
 		passangerDetail.setPhoneNumber("009012345678948");
 		passangerDetail.setPicture(null);
-		passangerDetailController.create(passangerDetail);
 		
-		TicketContoller tickCont = new TicketContoller();
-		Ticket ticket = new Ticket();
 		ticket.setSeatNumber(1);
-		tickCont.create(ticket);
+		ticketSet.add(ticket);
 		
-		PassangerController passangerController = new PassangerController();
-		Passanger passanger = new Passanger();
 		passanger.setFirstName("Can");
 		passanger.setLastName("Demirhan");
 		passanger.setPassangerDetail(passangerDetail);
-		passangerController.create(passanger);
+	
+		vehicle.getPassangerList().add(passanger);
+		
+		// Reffing Block
+		
+		ticket.setVehicle(vehicle);
+		ticket.setPassanger(passanger);
+		passanger.setPassangerDetail(passangerDetail);
+		passanger.setTicketSet(ticketSet);
+		passanger.setVehicle(vehicle);
+		passangerDetail.setPassanger(passanger);
+		dest.setVehicle(vehicle);
+		vehicle.setDestination(dest);
+		
+		// Dao Block
 
-		
-		VehicleController vehicCont = new VehicleController();
-		Vehicle vehic = new Vehicle();
-		vehic.setCapacity(50);
-		vehic.setCompany("Metro");
-		vehic.setLabel("TEMSA");
-		vehic.setLicencePlateCode("34 AB 8888");
-		vehic.getPassangerList().add(passanger);
-		vehicCont.create(vehic);
-		
-		DestinationController desCont = new DestinationController();
-		Destination dest = new Destination();
-		dest.setDepartureDate(Date.valueOf(LocalDate.now()));
-		dest.setDestinatedCity("Istanbul");
-		dest.setDuration(12);
-		dest.setSourceCity("Adana");
 		desCont.create(dest);
-		
+		passangerDetailController.create(passangerDetail);
+		vehicCont.create(vehicle);
+		passangerController.create(passanger);
+		tickCont.create(ticket);
 		
 	}
 }

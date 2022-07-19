@@ -9,7 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Table
 @Entity
 public class Destination {
@@ -35,54 +39,4 @@ public class Destination {
 	private Vehicle vehicle;
 	
 	public Destination() {super();}
-
-	public long getDestinationId() {
-		return destinationId;
-	}
-
-	public void setDestinationId(long destinationId) {
-		this.destinationId = destinationId;
-	}
-
-	public String getSourceCity() {
-		return sourceCity;
-	}
-
-	public void setSourceCity(String sourceCity) {
-		this.sourceCity = sourceCity;
-	}
-
-	public String getDestinatedCity() {
-		return destinatedCity;
-	}
-
-	public void setDestinatedCity(String destinatedCity) {
-		this.destinatedCity = destinatedCity;
-	}
-
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
-	public Date getDepartureDate() {
-		return departureDate;
-	}
-
-	public void setDepartureDate(Date departureDate) {
-		this.departureDate = departureDate;
-	}
-
-	public Vehicle getVehicle() {
-		return vehicle;
-	}
-
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
-	}
-	
-	
 }

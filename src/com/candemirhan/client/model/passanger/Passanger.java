@@ -17,7 +17,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Table
 @Entity
 public class Passanger {
@@ -41,57 +45,12 @@ public class Passanger {
 	@JoinColumn(name = "VEHICLE_PASS_ID",referencedColumnName = "vehicle_id")
 	private Vehicle vehicle;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PASSANGER_ID")
+	@OneToMany(mappedBy = "passanger", cascade = CascadeType.ALL)
 	Set<Ticket>	ticketSet;
 	
-	
-
 	public Passanger() 
 	{
 		super();
 		this.ticketSet = new HashSet<>();
 	}
-
-	public Set<Ticket> getTicketSet() {
-		return ticketSet;
-	}
-
-	public void setTicketSet(Set<Ticket> ticketSet) {
-		this.ticketSet = ticketSet;
-	}
-	public long getPassengerId() {
-		return passengerId;
-	}
-
-	public void setPassengerId(long passengerId) {
-		this.passengerId = passengerId;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public PassangerDetail getPassangerDetail() {
-		return passangerDetail;
-	}
-
-	public void setPassangerDetail(PassangerDetail passangerDetail) {
-		this.passangerDetail = passangerDetail;
-	}
-	
-	
-	
 }

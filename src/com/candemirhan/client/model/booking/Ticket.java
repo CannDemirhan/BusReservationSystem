@@ -18,7 +18,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table
 public class Ticket {
@@ -47,57 +51,14 @@ public class Ticket {
 	@JoinColumn(name = "VEHICLE_ID", referencedColumnName = "vehicle_id")
 	private Vehicle vehicle;
 	
-	
-	
 	public Ticket() 
 	{
 		super();
-		Random random = null;
-		this.codePNR = random.nextLong(1_000_000);
+		this.codePNR = randomlyCreatePNR();
 	}
 
-	public long getTicketId() {
-		return ticketId;
-	}
-
-	public void setTicketId(long ticketId) {
-		this.ticketId = ticketId;
-	}
-
-	public Date getReservatedOn() {
-		return reservatedOn;
-	}
-
-	public void setReservatedOn(Date reservatedOn) {
-		this.reservatedOn = reservatedOn;
-	}
-
-	public Integer getSeatNumber() {
-		return seatNumber;
-	}
-	
-	public void setSeatNumber(int seatNumber) {
-		this.seatNumber = seatNumber;
-	}
-	
-	public long getCodePNR()
-	{
-		return codePNR;
-	}
-
-	public Passanger getPassanger() {
-		return passanger;
-	}
-
-	public void setPassanger(Passanger passanger) {
-		this.passanger = passanger;
-	}
-
-	public Vehicle getVehicle() {
-		return vehicle;
-	}
-
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
+	private long randomlyCreatePNR() {
+		Random random = new Random();
+		return random.nextLong(1_000_000);
 	}
 }
