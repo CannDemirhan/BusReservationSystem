@@ -1,7 +1,12 @@
 package com.candemirhan.client.controller;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 
@@ -36,9 +41,9 @@ public class VehicleController implements CRUDable<Vehicle>{
 		String hql = 
 				"SELECT * FROM Vehicle as vehicle";
 		TypedQuery<Vehicle> typedQuery = session.createQuery(hql,Vehicle.class);
-		List<Vehicle> vehicleDetailList = typedQuery.getResultList();
+		List<Vehicle> vehicleList = typedQuery.getResultList();
 		
-		for (Vehicle vehicle : vehicleDetailList) {
+		for (Vehicle vehicle : vehicleList) {
 			System.out.println(vehicle);
 		}
 	}
@@ -106,6 +111,24 @@ public class VehicleController implements CRUDable<Vehicle>{
 		return vehicle;
 	}
 
-	
+	public Map<String,Time> vehicleMapByDate(LocalDate date)
+	{
+		Session session = dbConnectionViaHibernate();
+		String hql = 
+				"SELECT v FROM Vehicle v WHERE v.getDepartureDate = :date";
+		TypedQuery<Vehicle> typedQuery = session.createQuery(hql,Vehicle.class);
+		typedQuery.setParameter("date", Date.valueOf(date));
+		
+		List<Vehicle> vehicleList = typedQuery.getResultList();
 
+		if(vehicleList.size() != 0)
+		{
+			Map<String, Time> vehicleMapByTime = new HashMap<>();
+			for (Vehicle vehicle : vehicleList) {
+				vehicleMapByTime.put(vehicle.getCompany(), vehicle.getDepartureTime());
+			}
+			return vehicleMapByTime;
+		}
+		return null;
+	}
 }

@@ -42,6 +42,7 @@ public class PropUtility {
 				this.clientProperties.load(new FileInputStream(clientPropsFilePath));
 			}catch(IOException ex) {
 				ex.printStackTrace();
+				System.out.println("Client Prop File is not Found");
 			}
 		}
 		return this.clientProperties;
@@ -55,6 +56,7 @@ public class PropUtility {
 				this.serverProperties.load(new FileInputStream(serverPropertiesFilePath));
 			}catch(IOException ex) {
 				ex.printStackTrace();
+				System.out.println("Server Prop File is not Found");
 			}
 		}
 		return this.serverProperties;

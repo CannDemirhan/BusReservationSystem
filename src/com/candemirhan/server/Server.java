@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.candemirhan.common.ApplicaitonLogger;
+import com.candemirhan.util.PropUtility;
 
 
 public class Server {
@@ -22,6 +23,7 @@ public class Server {
 	
 	public static void main(String[] args) {
 		
+		(new Server()).startServer();
 	}
 	
 	private void startServer()

@@ -1,6 +1,7 @@
 package com.candemirhan.client.model.booking;
 
 import java.util.Date;
+import java.util.Random;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,6 +36,9 @@ public class Ticket {
 	@Column(name = "seat_number", nullable = false, unique = true)
 	private int seatNumber;
 	
+	@Column(name = "pnr_code",nullable = false)
+	private long codePNR;
+	
 	@ManyToOne
 	@JoinColumn(name = "PASSANGER_ID", referencedColumnName = "passanger_id")
 	private Passanger passanger;
@@ -44,7 +47,14 @@ public class Ticket {
 	@JoinColumn(name = "VEHICLE_ID", referencedColumnName = "vehicle_id")
 	private Vehicle vehicle;
 	
-	public Ticket() {super();}
+	
+	
+	public Ticket() 
+	{
+		super();
+		Random random = null;
+		this.codePNR = random.nextLong(1_000_000);
+	}
 
 	public long getTicketId() {
 		return ticketId;
@@ -65,9 +75,14 @@ public class Ticket {
 	public Integer getSeatNumber() {
 		return seatNumber;
 	}
-
+	
 	public void setSeatNumber(int seatNumber) {
 		this.seatNumber = seatNumber;
+	}
+	
+	public long getCodePNR()
+	{
+		return codePNR;
 	}
 
 	public Passanger getPassanger() {
@@ -85,7 +100,4 @@ public class Ticket {
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
-	
-	
-	
 }

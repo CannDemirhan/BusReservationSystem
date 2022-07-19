@@ -1,6 +1,8 @@
 package com.candemirhan.client.model.vehicle;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,14 @@ public class Vehicle {
 	private String licencePlateCode;
 	private int    capacity;
 	
+	@Column(name = "departure_date")
+	private Date departureDate;
+	
+	@Column(name = "departure_time")
+	private Time departureTime;
+	
+	
+
 	@OneToOne
 	@JoinColumn(name = "DESTINATION_ID", referencedColumnName = "destination_id")
 	private Destination destination;
@@ -82,6 +92,21 @@ public class Vehicle {
 
 	public void setLicencePlateCode(String licencePlateCode) {
 		this.licencePlateCode = licencePlateCode;
+	}
+	public Date getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public Time getDepartureTime() {
+		return departureTime;
+	}
+
+	public void setDepartureTime(Time departureTime) {
+		this.departureTime = departureTime;
 	}
 
 	public int getCapacity() {

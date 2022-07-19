@@ -7,7 +7,16 @@ public class ServerProperties {
 	private static ServerProperties instance;
 	private PropUtility propUtil;
 	
-	private ServerProperties() {super();}
+	private ServerProperties() 
+	{
+		this.propUtil =  PropUtility.getInstance();
+		propUtil.setServerPropsFilePath(
+				"C:\\Users\\Asus" 		+
+				"\\eclipse-workspace" 	+
+				"\\OnlineBusReservationSystem\\resources"
+				,
+				"server.properties");
+	}
 	
 	public static ServerProperties getInstance()
 	{
@@ -18,7 +27,7 @@ public class ServerProperties {
 	
 	public int getServerPort()
 	{
-		return Integer.parseInt(PropUtility.getInstance().getServerProperty("SERVER_PORT"));
+		return Integer.parseInt(this.propUtil.getServerProperty("SERVER_PORT"));
 	}
 
 }
