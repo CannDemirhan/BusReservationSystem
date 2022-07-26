@@ -30,6 +30,10 @@ public class Menu {
 		this.icon          = build.icon;
 		this.in                 = new Scanner(System.in);
 	}
+	public Map<Object, String> getMenu()
+	{
+		return this.menu;
+	}
 
 //	public static void main(String[] args) {
 //		new MenuBuilder.Builder().title("Başlık").build().show();

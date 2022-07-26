@@ -105,30 +105,31 @@ public class VehicleController implements CRUDable<Vehicle>{
 			else
 				System.out.println("Vehicle is not Found");
 		}catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return vehicle;
 	}
 
-	public Map<String,Time> vehicleMapByDate(LocalDate date)
+	public List<Vehicle> vehicleListByDate(LocalDate localDate)
 	{
 		Session session = dbConnectionViaHibernate();
 		String hql = 
-				"SELECT v FROM Vehicle v WHERE v.getDepartureDate = :date";
+				"FROM Vehicle V WHERE V.departureDate = :date";
 		TypedQuery<Vehicle> typedQuery = session.createQuery(hql,Vehicle.class);
-		typedQuery.setParameter("date", Date.valueOf(date));
+		typedQuery.setParameter("date", Date.valueOf(localDate));
 		
 		List<Vehicle> vehicleList = typedQuery.getResultList();
 
-		if(vehicleList.size() != 0)
-		{
-			Map<String, Time> vehicleMapByTime = new HashMap<>();
-			for (Vehicle vehicle : vehicleList) {
-				vehicleMapByTime.put(vehicle.getCompany(), vehicle.getDepartureTime());
-			}
-			return vehicleMapByTime;
-		}
-		return null;
+		return vehicleList;
+	}
+
+	public Vehicle getExactVehicle(String departureTimeString) 
+	{
+		Session session = dbConnectionViaHibernate();
+		String hql = "FROM Vehicle V WHERE V.departureTime = :departureTimeString";
+		TypedQuery<Vehicle> typedQuery = session.createQuery(hql,Vehicle.class);
+		typedQuery.setParameter("date", Date.valueOf(departureTimeString));
+		
+		return typedQuery.getSingleResult();
 	}
 }

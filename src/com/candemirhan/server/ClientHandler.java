@@ -8,11 +8,14 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Time;
+import java.util.List;
 import java.util.Map;
 
+import com.candemirhan.client.model.vehicle.Vehicle;
+import com.candemirhan.client.reserval.ReservationalOperation;
 import com.candemirhan.common.ApplicaitonLogger;
 import com.candemirhan.common.CommonData;
-import com.candemirhan.server.data.ReservationalOperation;
+import com.candemirhan.server.data.Database;
 
 public class ClientHandler implements Runnable {
 	
@@ -87,8 +90,14 @@ public class ClientHandler implements Runnable {
 				{
 					CommonData.getInstance().registerClients(line.substring(10));
 					ReservationalOperation reserval = new ReservationalOperation();
-					Map<String,Time> vehicleap = reserval.checkVehicleFromDB(line.substring(10));
-					objOutputStream.writeObject(vehicleap);
+					List<Vehicle> vehicleList = reserval.checkVehicleFromDB(line.substring(10));
+					objOutputStream.writeObject(vehicleList);
+				}
+				if(line.startsWith("DATE:RESERERVE:"))
+				{
+					CommonData.getInstance().registerClients(line.substring(15));
+					Database database = new Database();
+					database.createPassanger(line.substring(15));
 				}
 				
 			}

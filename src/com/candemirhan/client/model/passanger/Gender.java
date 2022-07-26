@@ -15,4 +15,9 @@ public enum Gender {
 	{
 		return this.gender;
 	}
+	public static Gender parse(String gender) {
+		if(gender.equalsIgnoreCase("Male"))
+			return Gender.MALE;
+		return Gender.FEMALE;
+	}
 }

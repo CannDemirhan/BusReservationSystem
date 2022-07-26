@@ -1,13 +1,13 @@
-package com.candemirhan.server.data;
+package com.candemirhan.client.reserval;
 
-import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 
 import com.candemirhan.client.controller.PassangerController;
 import com.candemirhan.client.controller.PassangerDetailController;
 import com.candemirhan.client.controller.TicketContoller;
 import com.candemirhan.client.controller.VehicleController;
+import com.candemirhan.client.model.vehicle.Vehicle;
 
 public class ReservationalOperation{
 	
@@ -24,12 +24,13 @@ public class ReservationalOperation{
 		this.ticketContoller = new TicketContoller();
 	}
 	
-	public Map<String,Time> checkVehicleFromDB(String localDateString) 
-	{		
-		Map<String,Time> vehicleMap = vehicleController.vehicleMapByDate(LocalDate.parse(localDateString));
-		return vehicleMap;
+	public List<Vehicle> checkVehicleFromDB(String localDateString) 
+	{
+		return vehicleController.vehicleListByDate(LocalDate.parse(localDateString));
 	}
 
-	
-	
+	public Vehicle getExactVehicle(String departureTimeString) 
+	{	
+		return vehicleController.getExactVehicle(departureTimeString);
+	}
 }

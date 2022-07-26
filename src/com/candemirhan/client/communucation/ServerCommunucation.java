@@ -9,9 +9,12 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import com.candemirhan.client.controller.TicketContoller;
+import com.candemirhan.client.model.vehicle.Vehicle;
 
 public class ServerCommunucation {
 	
@@ -70,13 +73,12 @@ public class ServerCommunucation {
 			return false;
 	}
 
-	public Map<String,Time> askForABusByDate(String dateString) throws IOException, ClassNotFoundException 
-	{	
-		// liste yi al
-		String line = "DATE:CHECK:" + dateString;
+	public List<Vehicle> askForABusByDate(LocalDate localDate) throws IOException, ClassNotFoundException 
+	{		
+		String line = "DATE:CHECK:" + localDate;
 		printWriter.println(line);
 		printWriter.flush();
-		return (Map<String, Time>) objInputStream.readObject();
+		return (List<Vehicle>) objInputStream.readObject();
 	}
 
 	public String checkForReservation(String codePNR) throws IOException 
@@ -96,6 +98,13 @@ public class ServerCommunucation {
 	public void askForDelete(String codePNR) 
 	{
 		String line = "DELETE:" + codePNR;
+		printWriter.println(line);
+		printWriter.flush();
+	}
+
+	public void makeReservationAccordingToDepartureTime(String departureTimeString) 
+	{
+		String line = "DATE:RESERERVE:" + departureTimeString;
 		printWriter.println(line);
 		printWriter.flush();
 	}

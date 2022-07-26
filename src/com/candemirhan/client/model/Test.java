@@ -1,9 +1,15 @@
 package com.candemirhan.client.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.sql.Date;
+import java.sql.Time;
 
 import com.candemirhan.client.controller.DestinationController;
 import com.candemirhan.client.controller.PassangerController;
@@ -40,6 +46,8 @@ public class Test {
 		vehicle.setCompany("Metro");
 		vehicle.setLabel("TEMSA");
 		vehicle.setLicencePlateCode("34 AB 8888");
+		vehicle.setDepartureDate(Date.valueOf(LocalDate.of(2022, Month.JULY, 30)));
+		vehicle.setDepartureTime(Time.valueOf(LocalTime.of(15, 30)));
 		
 		dest.setDepartureDate(Date.valueOf(LocalDate.now()));
 		dest.setDestinatedCity("Istanbul");
@@ -80,6 +88,10 @@ public class Test {
 		vehicCont.create(vehicle);
 		passangerController.create(passanger);
 		tickCont.create(ticket);
-		
+		List<Vehicle> vehicleList =
+				vehicCont.vehicleListByDate(LocalDate.of(2022, Month.JULY, 30));
+		for (Vehicle vehiclee : vehicleList) {
+			System.out.println(vehiclee.getTicketList().get(0).getSeatNumber());
+		}
 	}
 }

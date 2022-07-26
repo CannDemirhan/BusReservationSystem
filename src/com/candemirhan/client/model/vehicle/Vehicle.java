@@ -19,6 +19,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,9 +43,11 @@ public class Vehicle {
 	private int    capacity;
 	
 	@Column(name = "departure_date")
+	@Temporal(value = TemporalType.DATE)
 	private Date departureDate;
 	
 	@Column(name = "departure_time")
+	@Temporal(value = TemporalType.TIME)
 	private Time departureTime;
 	
 	
@@ -57,7 +61,7 @@ public class Vehicle {
 	@OneToMany(mappedBy = "vehicle")
 	private List<Passanger> passangerList;
 	
-
+	
 	public Vehicle() 
 	{
 		super();		

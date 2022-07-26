@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.UUID;
 
 import com.candemirhan.client.communucation.ServerCommunucation;
+import com.candemirhan.client.model.vehicle.Vehicle;
 import com.candemirhan.client.view.Menu;
 
 public class Client {
@@ -46,19 +50,19 @@ public class Client {
 	private void startUI() throws IOException 
 	{
 		this.scanner = new Scanner(System.in);
-		Menu menu = new Menu
+		Menu mainMenu = new Menu
 				.Builder()
 				.title("Bus Reservation System")
 				.build();
-		menu.addMenu(1, "Make   a Reservation");
-		menu.addMenu(2, "Update a Reservation");
-		menu.addMenu(3, "Cancel a Reservation");
-		menu.addMenu(99,"Terminate the Program");
+		mainMenu.addMenu(1, "Make   a Reservation");
+		mainMenu.addMenu(2, "Update a Reservation");
+		mainMenu.addMenu(3, "Cancel a Reservation");
+		mainMenu.addMenu(99,"Terminate the Program");
 		
 		int selection = 0;
 		while(selection != 99)
 		{
-			selection = menu.show().readInteger();
+			selection = mainMenu.show().readInteger();
 			try {
 				
 				this.processSelection(selection);
@@ -70,21 +74,29 @@ public class Client {
 		}
 		this.scanner.close();
 	}
+	
 	private void processSelection(int selection) throws IOException, ClassNotFoundException 
 	{
 		switch(selection)
 		{
 			case 1 :{
-				System.out.println("Please Enter a Date (dd-MM-yyyy)");
-				Map<String,Time> reply = serverCommunication.askForABusByDate(scanner.nextLine());
-				
-				reply
-				.entrySet()
-				.stream()
-				.forEach(s -> System.out.println(s.getKey() + " - " + s.getValue()));
-				
-				// select vehicle to register ticket
-				
+				System.out.println("Please Enter a Date ");
+				System.out.print("Year : ");
+				String year = scanner.nextLine();
+				System.out.print("Month : ");
+				String month = scanner.nextLine();
+				System.out.println("Day of Month : ");
+				String day = scanner.nextLine();
+				@SuppressWarnings("unchecked")
+				List<Vehicle> reply = (List<Vehicle>) serverCommunication
+						.askForABusByDate(
+								LocalDate.of(
+										Integer.parseInt(year), 
+										Integer.parseInt(month),
+										Integer.parseInt(day)
+										)
+									);
+				selectVehicleToRegistration(reply);
 			}
 			case 2 :{
 				System.out.println("Please Enter a PNR Code");
@@ -101,6 +113,20 @@ public class Client {
 					serverCommunication.askForDelete(codePNR);
 			}
 		}
+	}
+
+	private void selectVehicleToRegistration(List<Vehicle> vehicleList) 
+	{
+		Menu reservationMenu = new Menu.Builder().title("Vehicles and Departure Hours").build();
+		int menuCounter = 1;
+		vehicleList.stream()
+			.filter(s -> s.getPassangerList().contains(null))
+			.forEach(s -> {reservationMenu.addMenu(menuCounter, s.getDepartureTime().toString());});
+		reservationMenu.addMenu(99, "Return to the Main Menu");
+		int selection = reservationMenu.show().readInteger();
+		if(selection == 99)
+			return;
+		this.serverCommunication.makeReservationAccordingToDepartureTime(reservationMenu.getMenu().get(selection));
 	}
 
 }
